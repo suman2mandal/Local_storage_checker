@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [data, setData] = useState([]);
+  const [newData, setNewData] = useState('');
+
+  const addNewData= (e) => {
+    // console.log(e.target.value);
+    setNewData(e.target.value);
+  }
+  const addData = () => {
+    setData([...data, newData])
+
+    localStorage.setItem('data', [localStorage.getItem('data'),JSON.stringify(data)]);
+    console.log("called");
+  }
+  const showData = () => {
+    let tData =  localStorage.getItem("data");
+    console.log(tData);
+    // .map((item, index) => {
+    //   return <h1 key={index}>{item}</h1>
+    // })
+  }
+  const clearData = () => {
+    localStorage.clear();
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="text" onChange={addNewData} placeholder="Enter your name" />
+      <button onClick={addData}>Submit</button>
+      <button onClick={clearData}>Clear</button>
+      {showData()}
     </div>
   );
 }
